@@ -3,7 +3,7 @@ import './App.css';
 import Movie from './Movie';
 
 const movieTitles =[
-  "Matrix 2",
+  "Matrix 3",
   "full Metal Jacket",
   "Oldboy",
   "star Wars"
