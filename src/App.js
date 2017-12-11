@@ -13,40 +13,32 @@ class App extends Component {
   }
 
   componentDidMount(){
-      //setTimeout(function() {
-      setTimeout(() =>{
-        this.setState({
-          movies : [
-            // ...this.state.movies,  //이전 데이터에 이어서 추가 ~ 하는 부분
-            {
-              title : "Matrix",
-              poster: "http://cfile24.uf.tistory.com/image/130B48404FBBA7570F6D0C"
-            },
-            {
-              title : "full Metal Jacket",
-              poster: "https://images-na.ssl-images-amazon.com/images/I/51%2B7tBLC4uL._AC_UL320_SR214,320_.jpg"
-            },
-            {
-              title : "Oldboy",
-              poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMTI3NTQyMzU5M15BMl5BanBnXkFtZTcwMTM2MjgyMQ@@._V1_UY1200_CR90,0,630,1200_AL_.jpg"
-            },    
-            {
-              title : "star Wars",
-              poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJP7iP4Vl57v4JKm_vMV9rsWYxz-xmiRDqHmvJeLOuhqUSvFxP"
-            },
-            {
-              title : "TrainsPotting",
-              poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJP7iP4Vl57v4JKm_vMV9rsWYxz-xmiRDqHmvJeLOuhqUSvFxP"
-            }
-          ]           
+    this.__getMovies()
+  }
 
-        })
-    },5000)
+   __getMovies = async () =>{
+    const movies = await this.__callApi()
+    this.setState({
+      movies
+    })
+  }
+
+  __callApi =() =>{
+     return fetch ('https://yts.am/api/v2/list_movies.json?sort_by=rating')
+    .then(res => res.json())
+    .then(resjson => resjson.data.movies)
+    .catch( err => console.log(err))
   }
 
   _renderMovie = () => {
     const Rmovies = this.state.movies.map((movie ,index)  => {
-      return <Movie title={movie.title} poster={movie.poster} key={index} />
+      console.log(movie)
+      return <Movie 
+      title={movie.title} 
+      poster={movie.medium_cover_image} 
+      key={movie.id}
+      genres ={movie.genres}
+      synopsis ={movie.synopsis}   />
     })
     return Rmovies
   }
